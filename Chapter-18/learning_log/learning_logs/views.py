@@ -43,7 +43,9 @@ def new_topic(request):
         # POST data submitted; process data.
         form = TopicForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            created_topic = form.save(commit=False)
+            created_topic.owner = request.user
+            created_topic.save()
             return redirect('learning_logs:topics')
 
     # Display a blank of invalid form.
